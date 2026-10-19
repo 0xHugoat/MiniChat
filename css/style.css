@@ -1,0 +1,134 @@
+body{
+    background-color: #313338;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+.photoDeProfil{
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+}
+
+.profil-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    background-color: #1E1F22;
+    width: 10%;
+    height: 100vh;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    overflow-y: auto;
+}
+
+.chat-container {
+    padding: 20px;
+    padding-left: 200px;
+
+}
+
+.message-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 10px;
+    justify-content: start;
+}
+
+.photoDeProfil {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.pseudoEtHeure {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pseudo {
+    color: #F2F3F5;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.date-message {
+    color: #949BA4;
+    font-size: 12px;
+}
+
+.texte-message {
+    color: #DBDEE1;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.profil-container .message-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.minichat{
+    display: flex;
+}
+
+.chat-form {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 70%;
+    max-width: 900px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background-color: #383A40;
+    padding: 12px 16px;
+    border-radius: 10px;
+}
+
+.chat-form input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 15px;
+}
+
+.chat-form input::placeholder {
+    color: #949BA4;
+}
+
+.chat-form button {
+    background-color: #5865F2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    cursor: pointer;
+}
+
+.chat-form button:hover {
+    background-color: #4752C4;
+}
