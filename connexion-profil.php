@@ -6,11 +6,12 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="">
+    <form action="traitement-connexion.php" method="post">
         <label for="email">Votre e-mail</label>
-        <input type="email" name="email" id="email" placeholder="Exemple@exemple.com">
+        <input type="email" name="email" id="email" placeholder="Exemple@exemple.com" require>
         <label for="password">Votre mot de passe</label>
-        <input type="password" name="password" id="password">
+        <input type="password" name="password" id="password" require>
+        <button type="submit" name="connexion">Se connecter</button>
     </form>
 </body>
 </html>

@@ -1,7 +1,17 @@
 <?php
 require_once('connexion.php');
 
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+
+session_start();
+
+require_once('connexion.php');
+
+if (!isset($_SESSION['profil_id'])) {
+    header('Location: connexion-profil.php');
+    exit();
+}
+
+$id = $_SESSION['profil_id'];
 
 $sql = "SELECT message.*, profil.*
         FROM message
@@ -45,39 +55,12 @@ $profils = $stmt->fetchAll();
         </div>
 
 
-        <div class="chat-container">
-            <?php foreach ($messages as $message): ?>
-                <div class="message-box">
+        <div class="chat-container" id="chat-container">
 
-                    <img
-                        src="uploads/<?= htmlspecialchars($message['photoDeProfil']) ?>"
-                        alt="Photo de profil"
-                        class="photoDeProfil">
-
-                    <div class="message-content">
-
-                        <div class="pseudoEtHeure">
-                            <span class="pseudo">
-                                <?= htmlspecialchars($message['pseudo']) ?>
-                            </span>
-
-                            <span class="date-message">
-                                <?= date('H:i', strtotime($message['datehour'])) ?>
-                            </span>
-                        </div>
-
-                        <span class="texte-message">
-                            <!-- Modification ici : nl2br entoure le htmlspecialchars -->
-                            <?= nl2br(htmlspecialchars($message['message'])) ?>
-                        </span>
-
-                    </div>
-                </div>
-            <?php endforeach; ?>
+            
         </div>
     </div>
     <form action="./envoyer-message.php" method="POST" class="chat-form">
-        <input type="hidden" name="profil_id" value="<?= (int) $id ?>">
         <input
             type="text"
             name="envoieMessage"
@@ -89,6 +72,72 @@ $profils = $stmt->fetchAll();
     <script>
     window.addEventListener('load', function () {
         window.scrollTo(0, document.body.scrollHeight);
+    
+    const chat = document.getElementById('chat-container');
+
+async function recupererMessages() {
+    try {
+        const response = await fetch('recuperer-messages.php');
+
+        if (!response.ok) {
+            return;
+        }
+
+        const messages = await response.json();
+
+        const estEnBas =
+            window.innerHeight + window.scrollY >=
+            document.documentElement.scrollHeight - 100;
+
+        chat.innerHTML = '';
+
+        messages.forEach(message => {
+            const div = document.createElement('div');
+            div.className = 'message-box';
+
+            const photo = document.createElement('img');
+            photo.className = 'photoDeProfil';
+            photo.src = 'uploads/' + encodeURIComponent(message.photoDeProfil);
+
+            const contenu = document.createElement('div');
+            contenu.className = 'message-content';
+
+            const entete = document.createElement('div');
+            entete.className = 'pseudoEtHeure';
+
+            const pseudo = document.createElement('span');
+            pseudo.className = 'pseudo';
+            pseudo.textContent = message.pseudo;
+
+            const heure = document.createElement('span');
+            heure.className = 'date-message';
+            heure.textContent = message.datehour.substring(11, 16);
+
+            const texte = document.createElement('span');
+            texte.className = 'texte-message';
+            texte.textContent = message.message;
+            texte.style.whiteSpace = 'pre-wrap';
+
+            entete.append(pseudo, heure);
+            contenu.append(entete, texte);
+            div.append(photo, contenu);
+            chat.appendChild(div);
+        });
+
+        if (estEnBas) {
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+    } catch (error) {
+        console.error('Erreur AJAX :', error);
+    }
+}
+
+// Charger les messages immédiatement
+recupererMessages();
+
+// Vérifier les nouveaux messages toutes les 2 secondes
+setInterval(recupererMessages, 2000);
     });
 </script>
 

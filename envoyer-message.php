@@ -1,10 +1,12 @@
 <?php
+session_start();
 require_once('connexion.php');
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $envoieMessage = trim($_POST['envoieMessage'] ?? '');
-    $profil_id = filter_input(INPUT_POST, 'profil_id', FILTER_VALIDATE_INT);
+    $profil_id = $_SESSION['profil_id'] ?? null;
 
     if ($envoieMessage === '' || !$profil_id || $profil_id <= 0) {
         exit("Veuillez remplir les champs obligatoires.");
@@ -32,6 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ]);
 
     // Retourner sur le MiniChat
-    header('Location: index.php?id=' . $profil_id);
+    header('Location: index.php');
     exit;
 }

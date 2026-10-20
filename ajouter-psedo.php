@@ -76,8 +76,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     
-    header('Location: index.php');
+    if (isset($_POST['create_profil'])) {
+
+    // Ton code pour enregistrer le profil
+
+    header('Location: connexion-profil.php');
     exit();
+}
 
 
 ?>
